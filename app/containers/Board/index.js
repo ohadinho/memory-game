@@ -6,8 +6,9 @@ import reducer from './reducer';
 import PropTypes from 'prop-types';
 import { selectCell } from './actions';
 import { createStructuredSelector } from 'reselect';
+import Cell from '../Cell';
 
-export default function Board({ memoryBoard, onCellSelected }) {
+export default function Board({ memoryBoard }) {
   useInjectReducer({ key, reducer });
 
   return (
@@ -17,7 +18,7 @@ export default function Board({ memoryBoard, onCellSelected }) {
           {memoryBoard.map((row, i) => (
             <div key={i}>
               {row.map((col, j) => (
-                <Cell cellIndex={[i, j]} key={j}>{col}</Cell>
+                <Cell cellIndex={[i, j]} key={j} value={col}></Cell>
               ))}
             </div>
           ))}
@@ -28,8 +29,7 @@ export default function Board({ memoryBoard, onCellSelected }) {
 }
 
 Board.propTypes = {
-  memoryBoard: PropTypes.any,
-  onCellSelected: PropTypes.func,
+  memoryBoard: PropTypes.any
 };
 
 const mapStateToProps = createStructuredSelector({
