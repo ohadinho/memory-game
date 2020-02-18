@@ -1,4 +1,4 @@
-import { SELECT_CELL } from '../Board/constants';
+import { SELECT_CELL } from './constants';
 
 export function selectCell(cellIndex) {
   return {
