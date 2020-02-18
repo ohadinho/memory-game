@@ -11,6 +11,7 @@ const boardReducer = (state = initialState, action) =>
       case SELECT_CELL:
         // action.cellRow
         //   // Delete prefixed '@' from the github username
+        draft.selectedCell = action.cellIndex;
         //   draft.username = action.username.replace(/@/gi, '');
         break;
     }

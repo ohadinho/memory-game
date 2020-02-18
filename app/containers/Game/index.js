@@ -1,9 +1,8 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { FormattedMessage } from 'react-intl';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
 import messages from './messages';
+import Board from '../Board';
 
 export default function Game() {
   return (
@@ -15,6 +14,7 @@ export default function Game() {
       <h1>
         <FormattedMessage {...messages.header} />
       </h1>
+      <Board />
     </div>
   );
 }

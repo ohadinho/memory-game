@@ -6,7 +6,7 @@ const selectBoard = state => state.board || initialState;
 const makeSelectMemoryBoard = () =>
   createSelector(
     selectBoard,
-    boardState => boardState.memoryGame,
+    boardState => boardState.memoryBoard,
   );
 
 export { selectBoard, makeSelectMemoryBoard };

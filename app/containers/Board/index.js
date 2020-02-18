@@ -1,14 +1,18 @@
 import React, { memo } from 'react';
-import { useInjectReducer } from 'utils/injectReducer';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import reducer from './reducer';
 import PropTypes from 'prop-types';
-import { selectCell } from './actions';
 import { createStructuredSelector } from 'reselect';
+import reducer from './reducer';
+import { selectCell } from '../Cell/actions';
+import { useInjectReducer } from '../../utils/injectReducer';
 import Cell from '../Cell';
+import { makeSelectMemoryBoard } from './selectors';
+import Row from './Row';
 
-export default function Board({ memoryBoard }) {
+const key = 'board';
+
+export function Board({ memoryBoard }) {
   useInjectReducer({ key, reducer });
 
   return (
@@ -16,11 +20,11 @@ export default function Board({ memoryBoard }) {
       {
         <div>
           {memoryBoard.map((row, i) => (
-            <div key={i}>
+            <Row>
               {row.map((col, j) => (
-                <Cell cellIndex={[i, j]} key={j} value={col}></Cell>
+                <Cell cellIndex={[i, j]} cellData={col} />
               ))}
-            </div>
+            </Row>
           ))}
         </div>
       }
@@ -29,16 +33,16 @@ export default function Board({ memoryBoard }) {
 }
 
 Board.propTypes = {
-  memoryBoard: PropTypes.any
+  memoryBoard: PropTypes.any,
 };
 
 const mapStateToProps = createStructuredSelector({
-//  memoryGame: makeSelectMemoryGame(),
+  memoryBoard: makeSelectMemoryBoard(),
 });
 
 export function mapDispatchToProps(dispatch) {
   return {
-    onCellSelected: evt => dispatch(selectCell(evt.target.value)),
+    // onCellSelected: evt => dispatch(selectCell(evt.target.value)),
   };
 }
 
