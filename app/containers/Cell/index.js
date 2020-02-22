@@ -4,32 +4,34 @@ import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import reducer from '../Board/reducer';
-import { selectCell } from './actions';
 import { useInjectReducer } from '../../utils/injectReducer';
 import Column from './Column';
+import CellValue from './CellValue';
 
 const key = 'cell';
 
-export function Cell({ cellIndex, onCellSelected, cellData }) {
+export function Cell({ onCellSelected, cellData }) {
   useInjectReducer({ key, reducer });
 
-  return <Column onClick={onCellSelected}>{cellData.value}</Column>;
+  return (
+    <Column onClick={onCellSelected}>
+      {cellData.isVisible ? <CellValue>{cellData.value}</CellValue> : 'X'}
+    </Column>
+  );
 }
 
 Cell.propTypes = {
-  cellIndex: PropTypes.any,
   onCellSelected: PropTypes.func,
   cellData: PropTypes.any,
 };
 
-const mapStateToProps = createStructuredSelector({
-  //  cellIndex: makeSelectCellIndex(),
-  // value: makeSelectCellValue()
-});
+const mapStateToProps = createStructuredSelector({});
 
 export function mapDispatchToProps(dispatch, ownProps) {
   return {
-    onCellSelected: () => dispatch(selectCell(ownProps.cellIndex)),
+    onCellSelected: () => {
+      ownProps.onCellSelected(ownProps.cellIndex);
+    },
   };
 }
 
