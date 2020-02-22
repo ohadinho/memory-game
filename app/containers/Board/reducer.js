@@ -42,12 +42,6 @@ const boardReducer = (state = initialState, action) =>
           return;
         }
 
-        // const isSelectedTwoCells = isTwoCellsSelected(state);
-        // if (isSelectedTwoCells) {
-        //
-        //   return;
-        // }
-
         const isCellAlreadySelected =
           cellAlreadySelected(action.cellIndex, state.firstSelectedCell) ||
           cellAlreadySelected(action.cellIndex, state.firstSelectedCell);
@@ -69,13 +63,8 @@ const boardReducer = (state = initialState, action) =>
         ].isVisible = true;
 
         checkMatch(draft);
-
-        // cellNotSelected = notSelected(state.secondSelectedCell);
-        // if (cellNotSelected) {
-        //   draft.secondSelectedCell = action.cellIndex;
-        //   draft.memoryBoard[action.cellIndex[0], action.cellIndex[1]].isVisible = true;
-        //   return;
-        // }
+        break;
+      default:
         break;
     }
   });
@@ -92,14 +81,14 @@ const cellAlreadySelected = (selectedCellIndex, cellToCheck) => {
   return isCellAlreadySelected;
 };
 
-const isTwoCellsSelected = state => {
-  const firstSelected =
-    state.firstSelectedCell[0] != null && state.firstSelectedCell[1] != null;
-  const secondSelected =
-    state.secondSelectedCell[0] != null && state.secondSelectedCell[1] != null;
-  const bothSelected = firstSelected && secondSelected;
-  return bothSelected;
-};
+// const isTwoCellsSelected = state => {
+//   const firstSelected =
+//     state.firstSelectedCell[0] != null && state.firstSelectedCell[1] != null;
+//   const secondSelected =
+//     state.secondSelectedCell[0] != null && state.secondSelectedCell[1] != null;
+//   const bothSelected = firstSelected && secondSelected;
+//   return bothSelected;
+// };
 
 const flipSelected = draft => {
   draft.memoryBoard[draft.firstSelectedCell[0]][
