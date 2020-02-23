@@ -2,6 +2,6 @@ import produce from 'immer';
 
 export const initialState = {};
 
-const boardReducer = (state = initialState) => produce(state);
+const cellReducer = (state = initialState) => produce(state, draft => {});
 
-export default boardReducer;
+export default cellReducer;

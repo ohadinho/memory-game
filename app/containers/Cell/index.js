@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import reducer from '../Board/reducer';
+import reducer from '../Cell/reducer';
 import { useInjectReducer } from '../../utils/injectReducer';
 import Column from './Column';
 import CellValue from './CellValue';

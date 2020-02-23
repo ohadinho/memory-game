@@ -1,5 +1,5 @@
 import produce from 'immer';
-import { SELECT_CELL } from './constants';
+import { INIT_MATCHES_LEFT, SELECT_CELL } from './constants';
 
 export const initialState = {
   memoryBoard: [
@@ -31,11 +31,15 @@ export const initialState = {
   firstSelectedCell: [null, null],
   secondSelectedCell: [null, null],
   clickToFlip: false,
+  matchesLeft: -1
 };
 
 const boardReducer = (state = initialState, action) =>
   produce(state, draft => {
     switch (action.type) {
+      case INIT_MATCHES_LEFT:
+        draft.matchesLeft = (state.memoryBoard.length * state.memoryBoard[0].length) / 2;
+        break;
       case SELECT_CELL:
         if (state.clickToFlip) {
           flipSelected(draft);
@@ -113,6 +117,7 @@ const checkMatch = draft => {
   }
 
   initSelectedCells(draft);
+  draft.matchesLeft--;
 };
 
 const initSelectedCells = draft => {

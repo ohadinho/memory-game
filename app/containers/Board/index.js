@@ -1,10 +1,10 @@
-import React, { memo } from 'react';
+import React, { useEffect, memo } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { createStructuredSelector } from 'reselect';
 import reducer from './reducer';
-import { selectCell } from './actions';
+import { initMatchesLeft, selectCell } from './actions';
 import { useInjectReducer } from '../../utils/injectReducer';
 import Cell from '../Cell';
 import { makeSelectMemoryBoard } from './selectors';
@@ -12,8 +12,12 @@ import Row from './Row';
 
 const key = 'board';
 
-export function Board({ memoryBoard, onCellSelected }) {
+export function Board({ memoryBoard, onCellSelected, onInitMatchesLeft }) {
   useInjectReducer({ key, reducer });
+
+  useEffect(() => {
+    onInitMatchesLeft();
+  });
 
   return (
     <div>
@@ -40,6 +44,7 @@ export function Board({ memoryBoard, onCellSelected }) {
 Board.propTypes = {
   memoryBoard: PropTypes.any,
   onCellSelected: PropTypes.func,
+  onInitMatchesLeft: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -49,6 +54,7 @@ const mapStateToProps = createStructuredSelector({
 export function mapDispatchToProps(dispatch) {
   return {
     onCellSelected: evt => dispatch(selectCell(evt)),
+    onInitMatchesLeft: () => dispatch(initMatchesLeft())
   };
 }
 
