@@ -1,7 +1,8 @@
-import { UPDATE_GAME_STATUS } from './constants';
+import { UPDATE_MATCHES_LEFT } from './constants';
 
-export function updateGameStatus() {
+export function updateMatchesLeft(matchesLeft) {
   return {
-    type: UPDATE_GAME_STATUS,
+    type: UPDATE_MATCHES_LEFT,
+    matchesLeft,
   };
 }

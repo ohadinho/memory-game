@@ -1,1 +1,1 @@
-export const UPDATE_GAME_STATUS = 'boilerplate/Game/UPDATE_GAME_STATUS';
+export const UPDATE_MATCHES_LEFT = 'boilerplate/Game/UPDATE_MATCHES_LEFT';

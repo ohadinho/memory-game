@@ -6,7 +6,13 @@ const selectBoard = state => state.board || initialState;
 const makeSelectMemoryBoard = () =>
   createSelector(
     selectBoard,
-    boardState => boardState.memoryBoard,
+    boardState => boardState.memoryBoard
   );
 
-export { selectBoard, makeSelectMemoryBoard };
+const makeSelectFoundMatch = () =>
+  createSelector(
+    selectBoard,
+    boardState => boardState.foundMatch
+  );
+
+export { selectBoard, makeSelectMemoryBoard, makeSelectFoundMatch };
