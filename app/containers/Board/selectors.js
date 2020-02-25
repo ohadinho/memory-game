@@ -1,7 +1,9 @@
 import { createSelector } from 'reselect';
 import { initialState } from './reducer';
 
-const selectBoard = state => state.board || initialState;
+const selectBoard = (state) => {
+  return state.board || initialState;
+};
 
 const makeSelectMemoryBoard = () =>
   createSelector(
@@ -12,7 +14,7 @@ const makeSelectMemoryBoard = () =>
 const makeSelectFoundMatch = () =>
   createSelector(
     selectBoard,
-    boardState => boardState.foundMatch
+    boardState => boardState.isFoundMatch
   );
 
 export { selectBoard, makeSelectMemoryBoard, makeSelectFoundMatch };

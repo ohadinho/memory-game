@@ -1,5 +1,5 @@
 import produce from 'immer';
-import { SELECT_CELL } from './constants';
+import { SELECT_CELL, SET_FOUND_MATCH } from './constants';
 
 export const initialState = {
   memoryBoard: [
@@ -31,15 +31,16 @@ export const initialState = {
   firstSelectedCell: [null, null],
   secondSelectedCell: [null, null],
   clickToFlip: false,
-  foundMatch: false
+  isFoundMatch: false
 };
 
 const boardReducer = (state = initialState, action) =>
   produce(state, draft => {
     switch (action.type) {
+      case SET_FOUND_MATCH:
+        setFoundMatch(draft, action.isFoundMatch);
+        break;
       case SELECT_CELL:
-        draft.foundMatch = false;
-
         if (state.clickToFlip) {
           flipSelected(draft);
           return;
@@ -84,14 +85,9 @@ const cellAlreadySelected = (selectedCellIndex, cellToCheck) => {
   return isCellAlreadySelected;
 };
 
-// const isTwoCellsSelected = state => {
-//   const firstSelected =
-//     state.firstSelectedCell[0] != null && state.firstSelectedCell[1] != null;
-//   const secondSelected =
-//     state.secondSelectedCell[0] != null && state.secondSelectedCell[1] != null;
-//   const bothSelected = firstSelected && secondSelected;
-//   return bothSelected;
-// };
+const setFoundMatch = (draft, isFoundMatch) => {
+  draft.isFoundMatch = isFoundMatch;
+};
 
 const flipSelected = draft => {
   draft.memoryBoard[draft.firstSelectedCell[0]][
@@ -113,7 +109,7 @@ const isCellsMatch = (draft) => {
   return isMatch;
 };
 
-const matchProcess = (draft, action) => {
+const matchProcess = (draft) => {
   const isMatch = isCellsMatch(draft);
   if (!isMatch) {
     noMatchProcess(draft);
@@ -128,7 +124,7 @@ const noMatchProcess = (draft) => {
 };
 
 const foundMatchProcess = (draft) => {
-  draft.foundMatch = true;
+  setFoundMatch(draft, true);
   initSelectedCells(draft);
 };
 

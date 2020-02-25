@@ -1,9 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import CenteredDiv from './CenteredDiv';
 
 export default function GameStatus({ matchesLeft }) {
   return (
-    <div>{matchesLeft}</div>
+    <CenteredDiv>{matchesLeft}</CenteredDiv>
   )
 }
 

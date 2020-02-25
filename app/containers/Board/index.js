@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { createStructuredSelector } from 'reselect';
 import reducer from './reducer';
-import { selectCell } from './actions';
+import { selectCell, setFoundMatch } from './actions';
 import { useInjectReducer } from '../../utils/injectReducer';
 import Cell from '../Cell';
 import { makeSelectFoundMatch, makeSelectMemoryBoard } from './selectors';
@@ -12,17 +12,21 @@ import Row from './Row';
 
 const key = 'board';
 
-export function Board({ memoryBoard, onCellSelected, onMatchesLeftUpdate }) {
+export function Board({ memoryBoard, onCellSelected, onMatchesLeftUpdate, onSetFoundMatch, matchesLeft, isFoundMatch }) {
   useInjectReducer({ key, reducer });
 
-  const onInitMatchesLeft = () => {
-    const matchesLeft = memoryBoard.length * memoryBoard[0].length / 2;
+  if(matchesLeft === -1) {
+    matchesLeft = memoryBoard.length * memoryBoard[0].length / 2;
     onMatchesLeftUpdate(matchesLeft);
-  };
+  }
 
   useEffect(() => {
-    onInitMatchesLeft();
-  });
+    matchesLeft = matchesLeft !== -1 ? matchesLeft : memoryBoard.length * memoryBoard[0].length / 2;
+    if (isFoundMatch) {
+      onMatchesLeftUpdate(--matchesLeft);
+      onSetFoundMatch(false);
+    }
+  }, [isFoundMatch]);
 
   return (
     <div>
@@ -49,24 +53,24 @@ export function Board({ memoryBoard, onCellSelected, onMatchesLeftUpdate }) {
 Board.propTypes = {
   memoryBoard: PropTypes.any,
   matchesLeft: PropTypes.any,
+  isFoundMatch: PropTypes.bool,
   onCellSelected: PropTypes.func,
-  onInitMatchesLeft: PropTypes.func,
-  onMatchesLeftUpdate: PropTypes.func
+  onMatchesLeftUpdate: PropTypes.func,
+  onSetFoundMatch: PropTypes.func
 };
 
 const mapStateToProps = createStructuredSelector({
   memoryBoard: makeSelectMemoryBoard(),
-  foundMatch: makeSelectFoundMatch()
+  isFoundMatch: makeSelectFoundMatch()
 });
 
-export function mapDispatchToProps(dispatch, ownProps) {
+export function mapDispatchToProps(dispatch) {
   return {
     onCellSelected: evt => {
       dispatch(selectCell(evt));
-      const foundMatch = makeSelectFoundMatch();
-      if (foundMatch) {
-        ownProps.onMatchesLeftUpdate(--ownProps.matchesLeft);
-      }
+    },
+    onSetFoundMatch: isFoundMatch => {
+      dispatch(setFoundMatch(isFoundMatch))
     }
   };
 }
