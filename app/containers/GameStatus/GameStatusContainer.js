@@ -3,7 +3,7 @@ import styled from 'styled-components';
 const GameStatusContainer = styled.div`
   color: red;
   display: flex;
-    flex-direction: row;
+    flex-direction: column;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;

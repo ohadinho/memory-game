@@ -1,14 +1,11 @@
 import styled from 'styled-components';
 
-const GameStatusText = styled.div`
+const GameStatusItem = styled.div`
   color: red;
-  display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
     justify-content: center;
     align-items: center;
     margin-top: 2rem;
     font-size: 5rem;
 `;
 
-export default GameStatusText;
+export default GameStatusItem;

@@ -21,7 +21,6 @@ export function Board({ memoryBoard, onCellSelected, onMatchesLeftUpdate, onSetF
   }
 
   useEffect(() => {
-    matchesLeft = matchesLeft !== -1 ? matchesLeft : memoryBoard.length * memoryBoard[0].length / 2;
     if (isFoundMatch) {
       onMatchesLeftUpdate(--matchesLeft);
       onSetFoundMatch(false);

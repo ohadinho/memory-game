@@ -1,26 +1,31 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import GameStatusContainer from './GameStatusContainer';
-import GameStatusText from './GameStatusText';
+import GameStatusItem from './GameStatusItem';
 import { FormattedMessage } from 'react-intl';
 import messages from './messages';
+import ResetButton from './ResetButton';
 
 export default function GameStatus({ matchesLeft }) {
   return (
     <GameStatusContainer>
-      <GameStatusText>
+      <GameStatusItem>
         {isGameOver(matchesLeft) ?
           <FormattedMessage
             {...messages.gameOver}
-          /> :
+          />
+          :
           <FormattedMessage
             {...messages.messagesLeft}
             values={{ matchesLeft: matchesLeft }}
           />
         }
-      </GameStatusText>
+      </GameStatusItem>
+      <GameStatusItem>
+        { isGameOver(matchesLeft) && <ResetButton>Reset</ResetButton> }
+      </GameStatusItem>
     </GameStatusContainer>
-  )
+  );
 }
 
 GameStatus.propTypes = {
@@ -29,4 +34,4 @@ GameStatus.propTypes = {
 
 const isGameOver = (matchesLeft) => {
   return matchesLeft === 0;
-}
+};
