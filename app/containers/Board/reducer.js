@@ -1,33 +1,74 @@
 import produce from 'immer';
 import { SELECT_CELL, SET_FOUND_MATCH } from './constants';
 
+export const initBoard = (size) => {
+  const board = createEmptyBoard(size);
+  const numbersToGuess = size * 2;
+
+  for(let currentNumberToGuess = 1; currentNumberToGuess <= numbersToGuess; currentNumberToGuess++)
+  {
+      placeNumber(size,board, currentNumberToGuess);
+      placeNumber(size,board, currentNumberToGuess);
+  }
+
+ return board;
+};
+
+const placeNumber = (size, board, number) => {
+  const randomPlace = getFreeRandomPlace(size,board);
+  board[randomPlace.rowIndex][randomPlace.columnIndex] = { value: number, isVisible: false };
+};
+
+const getFreeRandomPlace = (size, board) => {
+  let randomPlace;
+
+  do {
+    randomPlace = getRandomPlace(size);
+  }
+  while (board[randomPlace.rowIndex][randomPlace.columnIndex]);
+
+  return randomPlace;
+};
+
+const getRandomPlace = (size) => {
+  let rowIndex = Math.floor(Math.random() * size); // 0 to (size - 1)
+  let columnIndex = Math.floor(Math.random() * size); // 0 to (size - 1)
+  return {rowIndex: rowIndex, columnIndex: columnIndex};
+};
+
+const createEmptyBoard = (size) => {
+  const board = Array(size).fill(null).map(()=>Array(size).fill(null));
+  return board;
+};
+
 export const initialState = {
-  memoryBoard: [
-    [
-      { value: 7, isVisible: false },
-      { value: 8, isVisible: false },
-      { value: 1, isVisible: false },
-      { value: 7, isVisible: false },
-    ],
-    [
-      { value: 6, isVisible: false },
-      { value: 3, isVisible: false },
-      { value: 2, isVisible: false },
-      { value: 8, isVisible: false },
-    ],
-    [
-      { value: 4, isVisible: false },
-      { value: 5, isVisible: false },
-      { value: 1, isVisible: false },
-      { value: 2, isVisible: false },
-    ],
-    [
-      { value: 5, isVisible: false },
-      { value: 6, isVisible: false },
-      { value: 4, isVisible: false },
-      { value: 3, isVisible: false },
-    ],
-  ],
+  memoryBoard: initBoard(4),
+  //   [
+  //   [
+  //     { value: 7, isVisible: false },
+  //     { value: 8, isVisible: false },
+  //     { value: 1, isVisible: false },
+  //     { value: 7, isVisible: false },
+  //   ],
+  //   [
+  //     { value: 6, isVisible: false },
+  //     { value: 3, isVisible: false },
+  //     { value: 2, isVisible: false },
+  //     { value: 8, isVisible: false },
+  //   ],
+  //   [
+  //     { value: 4, isVisible: false },
+  //     { value: 5, isVisible: false },
+  //     { value: 1, isVisible: false },
+  //     { value: 2, isVisible: false },
+  //   ],
+  //   [
+  //     { value: 5, isVisible: false },
+  //     { value: 6, isVisible: false },
+  //     { value: 4, isVisible: false },
+  //     { value: 3, isVisible: false },
+  //   ],
+  // ],
   firstSelectedCell: [null, null],
   secondSelectedCell: [null, null],
   clickToFlip: false,
