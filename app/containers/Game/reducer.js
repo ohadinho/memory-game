@@ -40,18 +40,28 @@ const createEmptyBoard = (size) => {
   return board;
 };
 
+const getInitializedGameStatus = (size) => {
+  const gameStatus = { matchesLeft: BOARD_SIZE_VALUE*BOARD_SIZE_VALUE/2 };
+  return gameStatus;
+};
+
+const setNewGame = (draft) => {
+  draft.memoryBoard = getInitializedBoard(BOARD_SIZE_VALUE);
+  draft.gameStatus = getInitializedGameStatus(BOARD_SIZE_VALUE);
+};
+
 export const initialState = {
   firstSelectedCell: [null, null],
   secondSelectedCell: [null, null],
   clickToFlip: false,
   memoryBoard: getInitializedBoard(BOARD_SIZE_VALUE),
-  gameStatus: { matchesLeft: BOARD_SIZE_VALUE*BOARD_SIZE_VALUE/2 },
+  gameStatus: getInitializedGameStatus(BOARD_SIZE_VALUE),
 };
 
 const gameReducer = (state = initialState, action) => produce(state, draft => {
   switch (action.type) {
     case RESET_BOARD:
-      draft.memoryBoard = getInitializedBoard(BOARD_SIZE_VALUE);
+      setNewGame(draft);
       break;
     case SELECT_CELL:
       if (state.clickToFlip) {
@@ -150,7 +160,7 @@ const initSelectedCells = draft => {
 };
 
 const decreaseMatchesLeft = draft => {
-  draft.matchesLeft--;
+  draft.gameStatus.matchesLeft -= 1;
 };
 
 export default gameReducer;
