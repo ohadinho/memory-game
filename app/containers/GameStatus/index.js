@@ -6,7 +6,7 @@ import { FormattedMessage } from 'react-intl';
 import messages from './messages';
 import ResetButton from './ResetButton';
 
-export default function GameStatus({ matchesLeft }) {
+export default function GameStatus({ matchesLeft, onReset }) {
   return (
     <GameStatusContainer>
       <GameStatusItem>
@@ -22,7 +22,7 @@ export default function GameStatus({ matchesLeft }) {
         }
       </GameStatusItem>
       <GameStatusItem>
-        { isGameOver(matchesLeft) && <ResetButton>Reset</ResetButton> }
+        { isGameOver(matchesLeft) && <ResetButton onClick={onReset}>Reset</ResetButton> }
       </GameStatusItem>
     </GameStatusContainer>
   );
@@ -30,6 +30,7 @@ export default function GameStatus({ matchesLeft }) {
 
 GameStatus.propTypes = {
   matchesLeft: PropTypes.any,
+  onReset: PropTypes.func,
 };
 
 const isGameOver = (matchesLeft) => {

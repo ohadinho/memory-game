@@ -1,12 +1,18 @@
 import { createSelector } from 'reselect';
 import { initialState } from './reducer';
 
-const selectGameStatus = state => state.game || initialState;
+const selectGameState = state => state.game || initialState;
+
+const makeSelectMemoryBoard = () =>
+  createSelector(
+    selectGameState,
+    gameState => gameState.memoryBoard
+  );
 
 const makeSelectGameStatus = () =>
   createSelector(
-    selectGameStatus,
-    gameStatusState => gameStatusState.gameStatus,
+    selectGameState,
+    gameState => gameState.gameStatus,
   );
 
-export { selectGameStatus, makeSelectGameStatus };
+export { selectGameState, makeSelectMemoryBoard, makeSelectGameStatus };

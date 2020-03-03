@@ -5,45 +5,56 @@ import messages from './messages';
 import Board from '../Board';
 import PropTypes from 'prop-types';
 import { createStructuredSelector } from 'reselect';
-import { updateMatchesLeft } from './actions';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { useInjectReducer } from '../../utils/injectReducer';
 import reducer from '../Game/reducer';
-import { makeSelectGameStatus } from './selectors';
+import { makeSelectGameStatus, makeSelectMemoryBoard } from './selectors';
 import GameStatus from '../GameStatus';
+import { resetBoard, selectCell } from './actions';
 
 const key = 'game';
 
-export function Game({ onMatchesLeftUpdate, gameStatus }) {
+export function Game({ onCellSelected, onReset, gameStatus, memoryBoard }) {
   useInjectReducer({ key, reducer });
 
   return (
     <div>
       <Helmet>
         <title>Game</title>
-        <meta name="description" content="Memory Game" />
+        <meta name="description"
+              content="Memory Game"/>
       </Helmet>
       <h1>
         <FormattedMessage {...messages.header} />
       </h1>
-      <Board onMatchesLeftUpdate={onMatchesLeftUpdate} matchesLeft={gameStatus.matchesLeft} />
-      <GameStatus matchesLeft={gameStatus.matchesLeft} />
+      <Board memoryBoard={memoryBoard}
+             onCellSelected={onCellSelected} />
+      <GameStatus matchesLeft={gameStatus.matchesLeft}
+                  onReset={onReset}/>
     </div>
   );
 }
 
 Game.propTypes = {
-  onMatchesLeftUpdate: PropTypes.func,
+  memoryBoard: PropTypes.any,
+  onCellSelected: PropTypes.func,
+  onReset: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
-  gameStatus: makeSelectGameStatus()
+  gameStatus: makeSelectGameStatus(),
+  memoryBoard: makeSelectMemoryBoard(),
 });
 
 export function mapDispatchToProps(dispatch) {
   return {
-    onMatchesLeftUpdate: evt => dispatch(updateMatchesLeft(evt)),
+    onCellSelected: evt => {
+      dispatch(selectCell(evt));
+    },
+    onReset: () => {
+      dispatch(resetBoard());
+    },
   };
 }
 

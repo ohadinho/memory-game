@@ -4,28 +4,14 @@ import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { createStructuredSelector } from 'reselect';
 import reducer from './reducer';
-import { resetBoard, selectCell, setFoundMatch } from './actions';
 import { useInjectReducer } from '../../utils/injectReducer';
 import Cell from '../Cell';
-import { makeSelectFoundMatch, makeSelectMemoryBoard } from './selectors';
 import Row from './Row';
 
 const key = 'board';
 
-export function Board({ memoryBoard, onCellSelected, onMatchesLeftUpdate, onSetFoundMatch, matchesLeft, isFoundMatch }) {
+export function Board({ memoryBoard, onCellSelected }) {
   useInjectReducer({ key, reducer });
-
-  if (matchesLeft === -1) {
-    matchesLeft = memoryBoard.length * memoryBoard[0].length / 2;
-    onMatchesLeftUpdate(matchesLeft);
-  }
-
-  useEffect(() => {
-    if (isFoundMatch) {
-      onMatchesLeftUpdate(--matchesLeft);
-      onSetFoundMatch(false);
-    }
-  }, [isFoundMatch]);
 
   return (
     <div>
@@ -51,30 +37,13 @@ export function Board({ memoryBoard, onCellSelected, onMatchesLeftUpdate, onSetF
 
 Board.propTypes = {
   memoryBoard: PropTypes.any,
-  matchesLeft: PropTypes.any,
-  isFoundMatch: PropTypes.bool,
-  onCellSelected: PropTypes.func,
-  onMatchesLeftUpdate: PropTypes.func,
-  onSetFoundMatch: PropTypes.func,
-  onResetBoard: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
-  memoryBoard: makeSelectMemoryBoard(),
-  isFoundMatch: makeSelectFoundMatch(),
 });
 
 export function mapDispatchToProps(dispatch) {
   return {
-    onCellSelected: evt => {
-      dispatch(selectCell(evt));
-    },
-    onSetFoundMatch: isFoundMatch => {
-      dispatch(setFoundMatch(isFoundMatch));
-    },
-    onResetBoard: () => {
-      dispatch(resetBoard());
-    },
   };
 }
 
