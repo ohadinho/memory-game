@@ -9,7 +9,7 @@ import ResetButton from './ResetButton';
 export default function GameStatus({ matchesLeft, onReset }) {
   return (
     <GameStatusContainer>
-      <GameStatusItem>
+      <GameStatusItem status>
         {isGameOver(matchesLeft) ?
           <FormattedMessage
             {...messages.gameOver}
@@ -21,8 +21,10 @@ export default function GameStatus({ matchesLeft, onReset }) {
           />
         }
       </GameStatusItem>
-      <GameStatusItem>
-        { isGameOver(matchesLeft) && <ResetButton onClick={onReset}>Reset</ResetButton> }
+      <GameStatusItem reset>
+        { isGameOver(matchesLeft) && <ResetButton onClick={onReset}><FormattedMessage
+          {...messages.reset}
+        /></ResetButton>}
       </GameStatusItem>
     </GameStatusContainer>
   );

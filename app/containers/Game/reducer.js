@@ -41,7 +41,7 @@ const createEmptyBoard = (size) => {
 };
 
 const getInitializedGameStatus = (size) => {
-  const gameStatus = { matchesLeft: BOARD_SIZE_VALUE*BOARD_SIZE_VALUE/2 };
+  const gameStatus = { matchesLeft: size*size/2 };
   return gameStatus;
 };
 

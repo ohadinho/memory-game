@@ -11,4 +11,8 @@ export default defineMessages({
     id: `${scope}.gameOver`,
     defaultMessage: 'Game Over !',
   },
+  reset: {
+    id: `${scope}.reset`,
+    defaultMessage: 'Reset !',
+  }
 });
